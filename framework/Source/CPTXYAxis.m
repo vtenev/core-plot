@@ -151,15 +151,16 @@
 
 -(CGPoint)viewPointForOrthogonalCoordinateDecimal:(NSDecimal)orthogonalCoord axisCoordinateDecimal:(NSDecimal)coordinateDecimalNumber
 {
-    CPTCoordinate myCoordinate         = self.coordinate;
+    CPTCoordinate myCoordinate = self.coordinate;
     CPTCoordinate orthogonalCoordinate = CPTOrthogonalCoordinate(myCoordinate);
 
-    NSDecimal plotPoint[2];
+    double plotPoint[2];
+    plotPoint[myCoordinate] = CPTDecimalDoubleValue(coordinateDecimalNumber);
+    plotPoint[orthogonalCoordinate] = CPTDecimalDoubleValue(orthogonalCoord);
 
-    plotPoint[myCoordinate]         = coordinateDecimalNumber;
-    plotPoint[orthogonalCoordinate] = orthogonalCoord;
-
-    return [self convertPoint:[self.plotSpace plotAreaViewPointForPlotPoint:plotPoint numberOfCoordinates:2] fromLayer:self.plotArea];
+    return [self convertPoint:[self.plotSpace plotAreaViewPointForDoublePrecisionPlotPoint:plotPoint
+                                                                       numberOfCoordinates:2]
+                    fromLayer:self.plotArea];
 }
 
 -(CGPoint)viewPointForCoordinateDecimalNumber:(NSDecimal)coordinateDecimalNumber
